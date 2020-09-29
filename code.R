@@ -33,8 +33,11 @@ deff <- function(icc, n_cluster) {
 ##############################################
 
 
-smp_size_rd <- function(p1, p0, r, z, f, deff) {
+smp_size_rd <- function(p1, p0, r, cl, f, deff) {
   require(tidyverse)
+  
+  z <- qnorm(1 - (1 - cl) / 2)
+  
   smp_size_tab <- tibble(
     n1 = 4 * z ^ 2 * deff * (r * p1 * (1 - p1) + p0 * (1 - p0)) / (f ^ 2 * r), 
     n0 = n1 * r, 
@@ -51,14 +54,14 @@ smp_size_rd <- function(p1, p0, r, z, f, deff) {
                   "a deff of", sep = ", "), 
                    deff, sep = " "), 
                    "a confidence level of", sep = ", "), 
-                    z, sep = " "), "and an unexposed to exposed group size ratio of", sep = ", "),
+                    cl, sep = " "), "and an unexposed to exposed group size ratio of", sep = ", "),
                     r, sep = " "))
       
   
   return(smp_size_tab)
 }
 
-smp_size_rd(.4, .3, 3, 1.645, 0.08, 1) ### checking with Rothman & Greenland's example
+smp_size_rd(.4, .3, 3, .90, 0.08, 1) ### checking with Rothman & Greenland's example
 
 
 ##############################################
@@ -67,8 +70,11 @@ smp_size_rd(.4, .3, 3, 1.645, 0.08, 1) ### checking with Rothman & Greenland's e
 #                                            #
 ##############################################
 
-smp_size_rr <- function(p1, p0, r, z, f_r, deff) {
+smp_size_rr <- function(p1, p0, r, cl, f_r, deff) {
   require(tidyverse)
+  
+  z <- qnorm(1 - (1 - cl) / 2)
+  
   smp_size_tab <- tibble(
     n1 = 4 * z ^ 2 * deff * (r * p0 * (1 - p1) + p1 * (1 - p0)) / (r * p1 * p0 * log(f_r) ^ 2), 
     n0 = n1 * r, 
@@ -86,14 +92,14 @@ smp_size_rr <- function(p1, p0, r, z, f_r, deff) {
               "a deff of", sep = ", "), 
             deff, sep = " "), 
           "a confidence level of", sep = ", "), 
-        z, sep = " "), "and an unexposed to exposed group size ratio of", sep = ", "),
+        cl, sep = " "), "and an unexposed to exposed group size ratio of", sep = ", "),
     r, sep = " "))
   
   
   return(smp_size_tab)
 }
 
-smp_size_rr(0.4, 0.3, 3, 1.96, 2, 1) ### checking with Rothman & Greenland's example
+smp_size_rr(0.4, 0.3, 3, .95, 2, 1) ### checking with Rothman & Greenland's example
 
 ###########################################################
 #                                                         #
@@ -101,8 +107,11 @@ smp_size_rr(0.4, 0.3, 3, 1.96, 2, 1) ### checking with Rothman & Greenland's exa
 #                                                         #
 ###########################################################
 
-smp_size_ird <- function(i1, i0, r, z, f_r, deff) {
+smp_size_ird <- function(i1, i0, r, cl, f_r, deff) {
   require(tidyverse)
+  
+  z <- qnorm(1 - (1 - cl) / 2)
+  
   smp_size_tab <- tibble(
     n1 = 4 * z ^ 2 * deff * (r * i0 + i1) / (r * f ^ 2), 
     n0 = n1 * r, 
@@ -120,7 +129,7 @@ smp_size_ird <- function(i1, i0, r, z, f_r, deff) {
               "a deff of", sep = ", "), 
             deff, sep = " "), 
           "a confidence level of", sep = ", "), 
-        z, sep = " "), "and an unexposed to exposed group size ratio of", sep = ", "),
+        cl, sep = " "), "and an unexposed to exposed group size ratio of", sep = ", "),
     r, sep = " "))
   
   
@@ -134,8 +143,12 @@ smp_size_ird <- function(i1, i0, r, z, f_r, deff) {
 #                                           #
 #############################################
 
-smp_size_irr <- function(i1, i0, r, z, f_r, deff) {
+smp_size_irr <- function(i1, i0, r, cl, f_r, deff) {
   require(tidyverse)
+  
+  z <- qnorm(1 - (1 - cl) / 2)
+  
+  
   smp_size_tab <- tibble(
     n1 = 4 * z ^ 2 * deff * (r * i0 + i1) / (r * i1 * i0 * log(f_r) ^ 2), 
     n0 = n1 * r, 
@@ -153,7 +166,7 @@ smp_size_irr <- function(i1, i0, r, z, f_r, deff) {
               "a deff of", sep = ", "), 
             deff, sep = " "), 
           "a confidence level of", sep = ", "), 
-        z, sep = " "), "and an unexposed to exposed group size ratio of", sep = ", "),
+        cl, sep = " "), "and an unexposed to exposed group size ratio of", sep = ", "),
     r, sep = " "))
   
   
@@ -170,8 +183,12 @@ smp_size_irr <- function(i1, i0, r, z, f_r, deff) {
 ### r is the ratio of controls to cases, p1 is the prevalence of exposure in cases, 
 ### p0 is the prevalence of exposure in controls.
 
-smp_size_or <- function(p1, p0, r, z, f_r, deff) {
+smp_size_or <- function(p1, p0, r, cl, f_r, deff) {
   require(tidyverse)
+  
+  z <- qnorm(1 - (1 - cl) / 2)
+  
+  
   smp_size_tab <- tibble(
     m1 = 4 * z ^ 2 * deff * (r * p0 * (1 - p0) + p1 * (1 - p1)) / ((log(f_r) ^ 2) * (r * p1 * p0 * (1 - p1) * (1 - p0))), 
     m0 = n1 * r, 
@@ -189,7 +206,7 @@ smp_size_or <- function(p1, p0, r, z, f_r, deff) {
               "a deff of", sep = ", "), 
             deff, sep = " "), 
           "a confidence level of", sep = ", "), 
-        z, sep = " "), "and an unexposed to exposed group size ratio of", sep = ", "),
+        cl, sep = " "), "and an unexposed to exposed group size ratio of", sep = ", "),
     r, sep = " "))
   
   
