@@ -191,7 +191,7 @@ smp_size_or <- function(p1, p0, r, cl, f_r, deff) {
   
   smp_size_tab <- tibble(
     m1 = 4 * z ^ 2 * deff * (r * p0 * (1 - p0) + p1 * (1 - p1)) / ((log(f_r) ^ 2) * (r * p1 * p0 * (1 - p1) * (1 - p0))), 
-    m0 = n1 * r, 
+    m0 = m1 * r, 
     M = m1 + m0
   ) %>% 
     round()

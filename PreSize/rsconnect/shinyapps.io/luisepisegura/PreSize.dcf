@@ -1,0 +1,12 @@
+name: PreSize
+title: PreSize
+username:
+account: luisepisegura
+server: shinyapps.io
+hostUrl: https://api.shinyapps.io/v1
+appId: 2915244
+bundleId: 3685748
+url: https://luisepisegura.shinyapps.io/PreSize/
+when: 1601437800.63155
+asMultiple: FALSE
+asStatic: FALSE
